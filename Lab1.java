@@ -1,41 +1,26 @@
 import java.util.ArrayList;
-/*public class MinMaxFinder {
-    
-    protected int[] minMax(int[] arr) {
-        int[] mm = {arr[0], arr[0]};
-        for (int item: arr) {
-            if (item < mm[0]) {
-                mm[0] = item;
-            }
-            if (item > mm[1]) {
-                mm[1] = item;
-            }
-        }
-        return mm;
-    }
-} */
-
+import java.util.Arrays;
 class Lab1 {
 
     public static void main(String[] args) {
         GCD gcd = new GCD();
-        gcd.gcd(56, 19);
-        System.out.println(gcd.gcd(56, 19));
-        // MinMaxFinder mm = MinMaxFinder();
-        MergeSort mg = new MergeSort();
-        ArrayList<Integer> al = new ArrayList<>();
-        al.add(1);
-        al.add(342);
-        al.add(0);
-        al.add(-234);
-        al.add(23);
-        al.add(99);
-        al.add(13);
-        al.add(8);
-        al.add(175);
-        //mg.mergeSort(al);
-        for (Integer item: mg.mergeSort(al)) {
-            System.out.println(item);
-        }
+        int n1 = 564;
+        int n2 = 34;
+        MinMaxFinder m1 = new MinMaxFinder();
+        MinMaxDAC m2 = new MinMaxDAC();
+        ArrayList<Integer> al = new ArrayList<>(Arrays.asList(1, 342, 90, 0, -234, 345, 33, 945, -42, -2, 4, 184));
+        long start = System.nanoTime();
+        System.out.println("GCD (" + n1 + ", " + n2 + "): " + gcd.gcd(n1, n2));
+        System.out.println("Elapsed Time: " + (System.nanoTime() - start) + " ns");
+        start = System.nanoTime();
+        System.out.println("Min: " + m1.min(al, 0, (int) Integer.MAX_VALUE));
+        System.out.println("Elapsed Time: " + (System.nanoTime() - start) + " ns");
+        start = System.nanoTime();
+        System.out.println("Max: " + m1.max(al, 0, (int) Integer.MIN_VALUE));
+        System.out.println("Elapsed Time: " + (System.nanoTime() - start) + " ns");
+        start = System.nanoTime();
+        System.out.println("Min & Max: " +
+                m2.minMax(al, new ArrayList<Integer>(Arrays.asList(Integer.MAX_VALUE, Integer.MIN_VALUE))));
+        System.out.println("Elapsed Time: " + (System.nanoTime() - start) + " ns");
     }
 }
