@@ -1,37 +1,49 @@
 import java.util.List;
 
 public class MinMaxFinder {
-    protected <T> int min(List<Integer> list, int index, int min) {
-        if (index == list.size() - 1) {
-            if ((int)list.get(index) < min) {
-                min = (int)list.get(index);
-            }
+    protected int min(List<Integer> list, int index, int min) {
+        if (index == list.size()) {
             return min;
         }
         else {
             if ((int)list.get(index) < min) {
-                return min(list, index + 1, (int)list.get(index));
+                min = (int)list.get(index);
             }
-            else {
-                return min(list, index + 1, min);
-            }
+            min = min(list, index + 1, min);
+            return min;
         }
     }
 
-    protected <T> int max(List<Integer> list, int index, int max) {
-        if (index == list.size() - 1) {
-            if ((int)list.get(index) > max) {
-                max = (int)list.get(index);
-            }
+    protected int max(List<Integer> list, int index, int max) {
+        if (index == list.size()) {
             return max;
         }
         else {
             if ((int)list.get(index) > max) {
-                return max(list, index + 1, (int)list.get(index));
+                max = (int)list.get(index);
             }
-            else {
-                return max(list, index + 1, max);
+            max = max(list, index + 1, max);
+            return max;
+        }
+    }
+
+    protected int mi(List<Integer> list) {
+        int min = Integer.MAX_VALUE; 
+        for (int i = 0; i < list.size(); i++) {
+            if ((int)list.get(i) < min) {
+                min = list.get(i);
             }
         }
+        return min;
+    }
+
+    protected int ma(List<Integer> list) {
+        int max = Integer.MIN_VALUE; 
+        for (int i = 0; i < list.size(); i++) {
+            if ((int)list.get(i) > max) {
+                max = list.get(i);
+            }
+        }
+        return max;
     }
 }
