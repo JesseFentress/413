@@ -1,14 +1,13 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class NameSorter {
+public class FirstNameSorter {
     
     protected List<Student> selectionSort(List<Student> l) {
-        int sml = Integer.MAX_VALUE;
         for (int i = 0; i < l.size(); i++) {
-            sml = i;
+            int sml = i;
             for (int k = i + 1; k < l.size(); k++) {
-                if (l.get(k).getId() < l.get(sml).getId()) {
+                if ((l.get(k).getFn().compareTo(l.get(sml).getFn())) < 0) {
                     sml = k;
                 }
             }
@@ -20,14 +19,16 @@ public class NameSorter {
     }
 
     protected List<Student> insertionSort(List<Student> l) {
-        for (int i = 1; i < l.size(); i++) {
-            int n = l.get(i).getId();
+        int len = l.size();
+        for (int i = 1; i < len; i++) {
+            Student student = l.get(i);
+            String key = student.getFn();
             int j = i - 1;
-            while (j >= 0 && l.get(j).getId() > n) {
+            while (j >= 0 && (l.get(j).getFn().compareTo(key)) > 0) {
                 l.set(j + 1, l.get(j));
-                j = j - 1; 
+                j--; 
             }
-            l.set(i + j, l.get(n));
+            l.set(j + 1, student);
         }
         return l;
     }
@@ -37,7 +38,7 @@ public class NameSorter {
         int left = 0;
         int right = 0;
         while (left < l.size() && right < r.size()) {
-            if (l.get(left).getId() < (r.get(right).getId())) {
+            if ((l.get(left).getFn().compareTo(r.get(right).getFn())) < 0) {
                 temp.add(l.get(left));
                 left++;
             }
@@ -64,7 +65,7 @@ public class NameSorter {
             return l;
         }
         for (int i = 0; i < len - 1; i++) {
-            if (l.get(i).getId() > l.get(i + 1).getId()) {
+            if ((l.get(i).getFn().compareTo(l.get(i + 1).getFn())) > 0) {
                 Student temp = l.get(i);
                 l.set(i, l.get(i + 1));
                 l.set(i + 1, temp);

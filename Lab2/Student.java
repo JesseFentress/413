@@ -44,7 +44,6 @@ public class Student {
     }
     @Override
     public String toString() {
-        return getFn();
+        return " " + String.valueOf(getId()) + " " + getFn() + " " + getLn() + " " + getEmail() + " " + getMajor();
     }
-
 }
