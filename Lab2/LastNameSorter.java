@@ -1,14 +1,12 @@
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
-public class IDSorter {
-    
+public class LastNameSorter {
     protected List<Student> selectionSort(List<Student> l) {
-        int sml = Integer.MAX_VALUE;
         for (int i = 0; i < l.size(); i++) {
-            sml = i;
+            int sml = i;
             for (int k = i + 1; k < l.size(); k++) {
-                if (l.get(k).getId() < l.get(sml).getId()) {
+                if ((l.get(k).getLn().compareTo(l.get(sml).getLn())) < 0) {
                     sml = k;
                 }
             }
@@ -23,9 +21,9 @@ public class IDSorter {
         int len = l.size();
         for (int i = 1; i < len; i++) {
             Student student = l.get(i);
-            int key = student.getId();
+            String key = student.getLn();
             int j = i - 1;
-            while (j >= 0 && l.get(j).getId() > key) {
+            while (j >= 0 && (l.get(j).getLn().compareTo(key)) > 0) {
                 l.set(j + 1, l.get(j));
                 j--; 
             }
@@ -39,7 +37,7 @@ public class IDSorter {
         int left = 0;
         int right = 0;
         while (left < l.size() && right < r.size()) {
-            if (l.get(left).getId() < (r.get(right).getId())) {
+            if ((l.get(left).getLn().compareTo(r.get(right).getLn())) < 0) {
                 temp.add(l.get(left));
                 left++;
             }
@@ -66,12 +64,12 @@ public class IDSorter {
             return l;
         }
         for (int i = 0; i < len - 1; i++) {
-            if (l.get(i).getId() > l.get(i + 1).getId()) {
+            if ((l.get(i).getLn().compareTo(l.get(i + 1).getLn())) > 0) {
                 Student temp = l.get(i);
                 l.set(i, l.get(i + 1));
                 l.set(i + 1, temp);
             }
         }
         return bubbleSort(l, len - 1);
-    }
+    } 
 }

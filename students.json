@@ -1,0 +1,142 @@
+{
+"students": [
+{
+	"student_id": 34234,
+	"first_name": "Jesse",
+	"last_name": "Fentress",
+	"email": "jxf5627@psu.edu",
+	"major": "Computer Science"
+},
+{	
+	"student_id": 23418,
+	"first_name": "Dan",
+	"last_name": "Arbor",
+	"email": "jxf5627@psu.edu",
+	"major": "Computer Science"
+},
+{
+	"student_id": 34233,
+	"first_name": "Sara",
+	"last_name": "Fennel",
+	"email": "jxf5627@psu.edu",
+	"major": "Computer Science"
+},
+{
+	"student_id": 12353,
+	"first_name": "Smitt",
+	"last_name": "Crab",
+	"email": "jxf5627@psu.edu",
+	"major": "Computer Science"
+},
+{
+	"student_id": 89344,
+	"first_name": "Mike",
+	"last_name": "Smith",
+	"email": "jxf5627@psu.edu",
+	"major": "Computer Science"
+},
+{
+	"student_id": 74243,
+	"first_name": "Quinn",
+	"last_name": "Williams",
+	"email": "jxf5627@psu.edu",
+	"major": "Computer Science"
+},
+{
+	"student_id": 61239,
+	"first_name": "Terrance",
+	"last_name": "McDonall",
+	"email": "jxf5627@psu.edu",
+	"major": "Computer Science"
+},
+{
+	"student_id": 89623,
+	"first_name": "Shelle",
+	"last_name": "Sauder",
+	"email": "jxf5627@psu.edu",
+	"major": "Computer Science"
+},
+{
+	"student_id": 98742,
+	"first_name": "Laura",
+	"last_name": "Lowery",
+	"email": "jxf5627@psu.edu",
+	"major": "Computer Science"
+},
+{
+	"student_id": 24286,
+	"first_name": "Greg",
+	"last_name": "Vander",
+	"email": "jxf5627@psu.edu"
+},
+{
+	"student_id": 14795,
+	"first_name": "Kiki",
+	"last_name": "Stevenson",
+	"email": "jxf5627@psu.edu",
+	"major": "Computer Science"
+},
+{
+	"student_id": 89271,
+	"first_name": "Uhler",
+	"last_name": "Jameson",
+	"email": "jxf5627@psu.edu",
+	"major": "Computer Science"
+},
+{
+	"student_id": 35743,
+	"first_name": "Parker",
+	"last_name": "Minsu",
+	"email": "jxf5627@psu.edu",
+	"major": "Computer Science"
+},
+{
+	"student_id": 70239,
+	"first_name": "Andrew",
+	"last_name": "Decker",
+	"email": "jxf5627@psu.edu",
+	"major": "Computer Science"
+},
+{
+	"student_id": 34503,
+	"first_name": "Fez",
+	"last_name": "Reid",
+	"email": "jxf5627@psu.edu",
+	"major": "Computer Science"
+},
+{
+	"student_id": 45391,
+	"first_name": "Megan",
+	"last_name": "Hirsh",
+	"email": "jxf5627@psu.edu",
+	"major": "Computer Science"
+},
+{
+	"student_id": 73482,
+	"first_name": "James",
+	"last_name": "Sheroki",
+	"email": "jxf5627@psu.edu",
+	"major": "Computer Science"
+},
+{
+	"student_id": 87461,
+	"first_name": "Tyler",
+	"last_name": "Bihn",
+	"email": "jxf5627@psu.edu",
+	"major": "Computer Science"
+},
+{
+	"student_id": 56387,
+	"first_name": "Riley",
+	"last_name": "Matthews",
+	"email": "jxf5627@psu.edu"
+},
+{
+	"student_id": 22369,
+	"first_name": "Sam",
+	"last_name": "Connell",
+	"email": "jxf5627@psu.edu",
+	"major": "Computer Science"
+}
+]
+}
