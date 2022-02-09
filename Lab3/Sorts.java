@@ -32,22 +32,47 @@ public class Sorts {
     }
 
     protected List<Integer> countingSort(List<Integer> arr) {
-            Integer[] freq = new Integer[100];
-            //Arrays.fill(freq, 0);
-            for (int i = 0; i < arr.size(); i++) {
-                freq[arr.get(i)] = freq[arr.get(i)] + 1;
-            }
-            for (int i = 0; i < freq.length; i++) {
-                for (int k = i; i <= freq[i]; k++) {
-                    arr.set(k,freq[i]);
+        Integer[] freq = new Integer[10000];
+        int index = 0;
+        Arrays.fill(freq, 0);
+        for (int i = 0; i < arr.size(); i++) {
+            freq[arr.get(i)] = freq[arr.get(i)] + 1;
+        }
+        for (int i = 0; i < freq.length; i++) {
+            if (freq[i] != 0) {
+                for (int k = 0; k < freq[i]; k++) {
+                    arr.set(index, i);
+                    index++;
                 }
             }
-            return arr;
+        }
+        return arr;
     }
 
-    protected List<Integer> quickSort(List<Integer> l) {
-        return l;
+    protected int partition(List<Integer> arr, int low, int high) {
+        int index = low - 1;
+        for (int i = low; i < high; i++) {
+            if (arr.get(i) < arr.get(high)) {
+                index++;
+                int temp = arr.get(i);
+                arr.set(i, arr.get(index));
+                arr.set(index, temp);
+            }
+        }
+        int temp = arr.get(high);
+        arr.set(high, arr.get(index + 1));
+        arr.set(index + 1, arr.get(high));
+        return index + 1;
     }
-    
-    
+
+
+    protected void quickSort(List<Integer> arr, int low, int high) {
+        if (high <= low) {
+            return;
+        }
+        int pivot = partition(arr, low, high);
+        quickSort(arr, low, pivot - 1);
+        quickSort(arr, pivot + 1, high);
+    }
+
 }

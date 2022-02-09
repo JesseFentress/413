@@ -9,12 +9,18 @@ public class SortingDriver {
         ArrayList<Integer> list2 = new ArrayList<Integer>();
 
         for (int i = 0; i < 100000; i++) {
-            while (i < 49999) {
-                list1.add(random.nextInt(1000));
+            if (i < 50000) {
+                list1.add(random.nextInt(9999));
             }
-            list2.add(random.nextInt(1000));
+            list2.add(random.nextInt(9999));
         }
+        long start;
 
-        
+        start = System.currentTimeMillis();
+        sorter.countingSort(list2);
+        System.out.println("Count Sort (100k) Elapsed Time: " + (System.currentTimeMillis() - start));
+        start = System.currentTimeMillis();
+        sorter.countingSort(list1);
+        System.out.println("Count Sort (50k) Elapsed Time: " + (System.currentTimeMillis() - start));
     }
 }
