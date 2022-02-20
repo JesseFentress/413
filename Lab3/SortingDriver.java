@@ -8,19 +8,20 @@ public class SortingDriver {
         ArrayList<Integer> list1 = new ArrayList<Integer>();
         ArrayList<Integer> list2 = new ArrayList<Integer>();
 
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < 1000; i++) {
             if (i < 50000) {
                 list1.add(random.nextInt(9999));
             }
-            list2.add(random.nextInt(9999));
+            list2.add(random.nextInt(999999));
         }
         long start;
 
-        start = System.currentTimeMillis();
+        start = System.nanoTime();
         sorter.countingSort(list2);
-        System.out.println("Count Sort (100k) Elapsed Time: " + (System.currentTimeMillis() - start));
-        start = System.currentTimeMillis();
+    
+        System.out.println("Count Sort (100k) Elapsed Time: " + (System.nanoTime() - start));
+        start = System.nanoTime();
         sorter.countingSort(list1);
-        System.out.println("Count Sort (50k) Elapsed Time: " + (System.currentTimeMillis() - start));
+        System.out.println("Count Sort (50k) Elapsed Time: " + (System.nanoTime() - start));
     }
 }

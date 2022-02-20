@@ -32,7 +32,7 @@ public class Sorts {
     }
 
     protected List<Integer> countingSort(List<Integer> arr) {
-        Integer[] freq = new Integer[10000];
+        Integer[] freq = new Integer[1000000];
         int index = 0;
         Arrays.fill(freq, 0);
         for (int i = 0; i < arr.size(); i++) {
