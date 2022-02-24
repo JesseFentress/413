@@ -1,66 +1,71 @@
 import java.util.Arrays;
 
-public class PriorityQueueArray<T> {
+public class PriorityQueueArray {
 
-    T[] items;
-    int[] priority;
-    String m;
-    int index = 0;
+    private String[] items;
+    private int[] priority;
+    private String m;
+    private int index = -1;
 
-    public PriorityQueueArray(int size, String m) {
-        this.items = new T[size];
+    public PriorityQueueArray(String m) {
+        this.items = new String[10];
+        this.priority = new int[10];
         this.m = m;
     }
 
-    protected T peek() {
+    protected int peek() {
+        if (isEmpty()) {
+            return -1;
+        }
+        return priority[index];
+    }
+
+    protected void insert(String newItem, int newItemPriority) {
+       if (isFull()) {
+            String[] temp = Arrays.copyOf(items, size() * 2);
+            items = temp;
+        }
+        if (index == -1) {  
+            index++;
+            items[index] = newItem;
+            priority[index] = newItemPriority;
+            return;
+        }
+        else {
+            index++;
+            for (int i = index - 1; i >= 0; i--) {
+                if (priority[i] >= newItemPriority) {
+                    items[i + 1] = items[i];
+                    priority[i + 1] = priority[i];
+                    items[i] = newItem;
+                    priority[i] = newItemPriority;
+                }
+                else {
+                    items[i + 1] = newItem;
+                    priority[i + 1] = newItemPriority;
+                    break;
+                }
+            }
+        }   
+    }
+
+    protected String remove() {
         if (isEmpty()) {
             return null;
         }
-        int index = 0;
-        switch (m) {
-            case "min":
-                int min = Integer.MAX_VALUE;
-                for (int i = 0; i < priority.length; i++) {
-                    if (priority[i] < min) {
-                        min = priority[i];
-                        index = i;
-                    }
-                }
-                break;
-            case "max":
-                int max = Integer.MIN_VALUE;
-                for (int i = 0; i < priority.length; i++) {
-                    if (priority[i] > max) {
-                        min = priority[i];
-                        index = i;
-                    }
-                }
-                break;
-        } 
-        return items[index];
-    }
+        String temp = items[index];
+        items[index] = null;
+        priority[index] = 0;
+        index--;
+        return temp;
+    } 
 
-    protected void insert(T item, int prio) {
-        if (isFull()) {
-            T[] temp = Arrays.copyOf(items, size() * 2);
-            items = temp;
-        }
-        items[index] = item;
-        priority[index] = prio;
-        index++;    
-    }
-
-    protected T remove() {
-        T top = peek();    
-        return top;
-    }
-
-    protected void changePriority(T item, String newPriority) {
+    protected void changePriority(String item, String newPriority) {
 
     }
 
     protected boolean isFull() {
-        return index >= size();
+        return index == priority.length;
     }
 
     protected boolean isEmpty() {
@@ -68,6 +73,6 @@ public class PriorityQueueArray<T> {
     }
 
     protected int size() {
-        return items.length;
+        return index + 1;
     }    
 }
