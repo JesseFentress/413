@@ -1,38 +1,13 @@
 import java.util.Arrays;
 
 public class PriorityQueueHeap<T> {
-    private Object[][] heap;
+    public Object[][] heap;
     private int size;
 
     public PriorityQueueHeap()  {
         this.heap = new Object[10][2];
         this.size = 0;
     }
-
-    /*private void heapify(int index) {
-        if (index > (size / 2) && index <= size) {
-            return;
-        }
-        System.out.println(index);
-        System.out.println(heap[index][1]);
-        System.out.println(heap[leftChild(index)][1]);
-        System.out.println(heap[rightChild(rightChild(index))][1]);
-        if ((Integer)heap[index][1] < (Integer)heap[leftChild(index)][1] ||
-            (Integer)heap[index][1] < (Integer)heap[rightChild(index)][1]) {
-            if ((Integer)heap[leftChild(index)][1] > (Integer)heap[index][1]) {
-                Object[] temp = heap[index];
-                heap[index] = heap[leftChild(index)];
-                heap[leftChild(index)] = temp;
-                heapify(leftChild(index));
-            }
-            else {
-                Object[] temp = heap[index];
-                heap[index] = heap[rightChild(index)];
-                heap[rightChild(index)] = temp;
-                heapify(rightChild(index));
-            }
-        }
-    }*/
 
     private void heapify(int index) {
         int largest;
@@ -53,26 +28,6 @@ public class PriorityQueueHeap<T> {
         }
     }
 
-    /*protected void insert(T item, int priority) {
-        if (isFull()) {
-            Object[][] temp = Arrays.copyOf(heap, size() * 2);
-            heap = temp;
-        }
-        size++;
-        Object[] pair = {item, priority};
-        heap[size] = pair;
-        int currPos = size;
-        //System.out.println("ins" + heap[currPos][0]);
-        //System.out.println("bool "+ ((Integer)heap[currPos][1] > (Integer)heap[(currPos/ 2)][1]));
-        //System.out.println((currPos/ 2));
-        while ((Integer)heap[currPos][1] > (Integer)heap[(currPos  / 2)][1]) {
-            Object[] temp = heap[currPos];
-            heap[currPos] = heap[currPos  / 2];
-            heap[currPos  / 2] = temp;
-            currPos = currPos / 2;
-        }
-    }*/
-
     protected void insert(T item, int priority) {
         size++;
         Object[] pair = {item, priority};
@@ -87,13 +42,6 @@ public class PriorityQueueHeap<T> {
     protected Object peek() {
         return heap[1][0];
     }
-
-    /*protected Object remove() {
-        Object temp = heap[0][0];
-        heap[0] = heap[size--];
-        heapify(0);
-        return temp;
-    }*/
 
     protected Object remove() {
         if (size() < 1) {
@@ -119,25 +67,28 @@ public class PriorityQueueHeap<T> {
         }
         else {
             heap[index][1] = priority;
-            while ((Integer)heap[parent(index)][1] < (Integer)heap[index][1]) {
+            while (index > 1 && (Integer)heap[parent(index)][1] < (Integer)heap[index][1]) {
                 swap(index, parent(index));
                 index = parent(index);
             }
         }
     }
 
-    protected void buildHeap(int[][] arr) {
-        for (int i = arr.length / 2; i >= 1; i--){
+    protected void buildHeap() {
+        int size = heap.length;
+        for (int i = (heap.length / 2); i >= 1; i--) {
             heapify(i);
         }
     }
-    
-    protected void heapsort(int[][] arr) {
-        buildHeap(arr);
-        for (int i = arr.length - 1; i >= 2; i--) {
-            swapSort(arr, i, 1);
+
+    protected Object[][] heapsort() {
+        buildHeap();
+        for (int i = size; i >= 2; i--) {
+            swap(1, i);
+            size = size - 1;
             heapify(1);
         }
+        return heap;
     }
 
     private void swapSort(int[][] arr, int index1, int index2) {
@@ -174,5 +125,11 @@ public class PriorityQueueHeap<T> {
 
     protected int size() {
         return this.size;
+    }
+
+    protected void print() {
+        for (int i = 1; i <= size(); i++) {
+            System.out.print("[" + heap[i][0] + " " + heap[i][1] + "]");
+        }
     }
 }

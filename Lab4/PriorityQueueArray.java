@@ -4,13 +4,11 @@ public class PriorityQueueArray {
 
     private String[] items;
     private int[] priority;
-    private String m;
     private int index = -1;
 
-    public PriorityQueueArray(String m) {
+    public PriorityQueueArray() {
         this.items = new String[10];
         this.priority = new int[10];
-        this.m = m;
     }
 
     protected int peek() {
@@ -74,5 +72,11 @@ public class PriorityQueueArray {
 
     protected int size() {
         return index + 1;
-    }    
+    }   
+
+    protected void print() {
+        for (int i = size(); i > 0; i--) {
+            System.out.print("[" + items[i] + " " + priority[i] + "]" + " ");
+        }
+    }
 }
