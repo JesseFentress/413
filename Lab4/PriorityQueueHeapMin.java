@@ -1,60 +1,95 @@
 import java.util.Arrays;
 
-public class PriorityQueueHeap<T> {
-    private Object[][] heap;
+public class PriorityQueueHeapMin<K> {
+    protected Object[][] heap;
     private int size;
 
-    public PriorityQueueHeap()  {
+    public PriorityQueueHeapMin()  {
         this.heap = new Object[10][2];
         this.size = 0;
     }
 
     private void heapify(int index) {
-        int largest;
+        int smallest;
         int l = leftChild(index);
         int r = rightChild(index);
-        if (l <= size && (Integer)heap[l][1] > (Integer)heap[index][1]) {
-            largest = l;
+        if (l <= size && (Integer)heap[l][1] <= (Integer)heap[index][1]) {
+            smallest = l;
         }
         else {
-            largest = index;
+            smallest = index;
         }
-        if (r <= size && (Integer)heap[r][1] > (Integer)heap[index][1]) {
-            largest = r;
+        if (r <= size && (Integer)heap[r][1] <= (Integer)heap[smallest][1]) {
+            smallest = r;
         }
-        if (largest != index) {
-            swap(index, largest);
-            heapify(largest);
+        if (smallest != index) {
+            swap(index, smallest);
+            heapify(smallest);
         }
     }
 
-    protected void insert(T item, int priority) {
+    protected void insert(K item, int priority) {
+        if (isFull() == true) {
+            Object[][] temp = Arrays.copyOf(heap, size() * 2);
+            heap = temp;
+        }
         size++;
         Object[] pair = {item, priority};
         heap[size] = pair;
         int currPos = size;
-        while (currPos > 1 && (Integer)heap[parent(currPos)][1] < (Integer)heap[currPos][1]) {
+        while (currPos > 1 && (Integer)heap[parent(currPos)][1] > (Integer)heap[currPos][1]) {
             swap(currPos, parent(currPos));
             currPos = parent(currPos);
         }
     }
 
-    protected Object peek() {
-        return heap[1][0];
+
+    protected void heapDecrease(int index, int priority) {
+        if (priority < (Integer)heap[index][1]) {
+            
+        }
+        heap[index][1] = priority;
+        while (index > 1 && (Integer)heap[parent(index)][1] >= (Integer)heap[index][1]) {
+            swap(index, parent(index));
+            index = parent(index);
+        }
+    }
+
+    protected void minHeapInsert(K item, int priority) {
+        if (isFull() == true) {
+            Object[][] temp = Arrays.copyOf(heap, size() * 2);
+            heap = temp;
+        }
+        size++;
+        Object[] pair = {item, Integer.MAX_VALUE};
+        heap[size] = pair;
+        heapDecrease(size, priority);
+    }
+
+    protected K peek() {
+        return (K)heap[1][0];
+    }
+
+    protected Integer peekPriority() {
+        return (Integer)heap[1][1];
     }
 
     protected Object remove() {
         if (size() < 1) {
             return "Empty queue";
         }
+        //System.out.println("old root:" + peek() + heap[1][1]);
         Object temp = heap[1][0];
+        //System.out.println(size);
         heap[1] = heap[size];
+        //System.out.println(":" + peek());
+        size = size - 1;
         heapify(1);
-        size--;
+       // System.out.println("new root:" + peek() + heap[1][1]);
         return temp;
     }
 
-    protected void changePriority(T item, int priority) {
+    protected void changePriority(K item, int priority) {
         int index = 0;
         for (int i = 1; i < size; i++) {
             if (heap[i][0] == item) {
@@ -117,7 +152,7 @@ public class PriorityQueueHeap<T> {
     }
 
     protected boolean isFull() {
-        return size() == heap.length;
+        return size() == heap.length - 1;
     }
 
     protected int size() {

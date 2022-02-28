@@ -2,15 +2,13 @@ import java.util.Arrays;
 
 public class PriorityQueueArray {
 
-    private String[] items;
+    public Character[] items;
     private int[] priority;
-    private String m;
     private int index = -1;
 
-    public PriorityQueueArray(String m) {
-        this.items = new String[10];
+    public PriorityQueueArray() {
+        this.items = new Character[10];
         this.priority = new int[10];
-        this.m = m;
     }
 
     protected int peek() {
@@ -20,9 +18,9 @@ public class PriorityQueueArray {
         return priority[index];
     }
 
-    protected void insert(String newItem, int newItemPriority) {
-       if (isFull()) {
-            String[] temp = Arrays.copyOf(items, size() * 2);
+    protected void insert(Character newItem, int newItemPriority) {
+       if (isFull() == true) {
+            Character[] temp = Arrays.copyOf(items, size() * 2);
             items = temp;
         }
         if (index == -1) {  
@@ -49,11 +47,11 @@ public class PriorityQueueArray {
         }   
     }
 
-    protected String remove() {
+    protected Character remove() {
         if (isEmpty()) {
             return null;
         }
-        String temp = items[index];
+        Character temp = items[index];
         items[index] = null;
         priority[index] = 0;
         index--;
@@ -65,7 +63,7 @@ public class PriorityQueueArray {
     }
 
     protected boolean isFull() {
-        return index == priority.length;
+        return size() == priority.length;
     }
 
     protected boolean isEmpty() {

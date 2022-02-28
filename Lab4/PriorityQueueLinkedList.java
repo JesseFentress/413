@@ -1,8 +1,5 @@
 import java.util.LinkedList;
 
-public class Node<T> {
-
-}
 
 public class PriorityQueueLinkedList<T> {
     LinkedList<T> list = new LinkedList<T>();
@@ -13,7 +10,7 @@ public class PriorityQueueLinkedList<T> {
     }
 
     protected void insert(T item, int priority) {
-        list.add(item, priority);
+        //list.add(item, priority);
     }
 
     protected T peek() {
