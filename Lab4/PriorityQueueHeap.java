@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 public class PriorityQueueHeap<T> {
     public Object[][] heap;
     private int size;

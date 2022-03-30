@@ -122,7 +122,7 @@ public class HuffmanCoder {
         Iterator itr = huffCodes.entrySet().iterator();
         while (itr.hasNext()) {
             Map.Entry<Character, String> entry = (Map.Entry) itr.next();
-            System.out.println(entry.getKey() + entry.getValue());
+            System.out.println(entry.getKey() + " : " + entry.getValue());
         }
     }
 
