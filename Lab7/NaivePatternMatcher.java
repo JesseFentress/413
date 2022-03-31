@@ -8,9 +8,11 @@ public class NaivePatternMatcher implements PatternMatcherInterface {
     @Override
     public List<Integer> patternMatch(String text, String pattern) {
         CharacterIterator textIterator = new StringCharacterIterator(text);
+        CharacterIterator textStartIterator = new StringCharacterIterator(text);
         CharacterIterator patternIterator = new StringCharacterIterator(pattern);
         List<Integer> patternOccurences = new ArrayList<>();
         int patternIndex = 0;
+        
         while (textIterator.current() != CharacterIterator.DONE) {
             if (textIterator.current() == patternIterator.current()) {
                 if (patternIterator.getIndex() == 0) { patternIndex = textIterator.getIndex(); }
@@ -26,7 +28,8 @@ public class NaivePatternMatcher implements PatternMatcherInterface {
                 if (textIterator.current() == patternIterator.current()) {
                     patternIterator.next();
                 }
-                textIterator.next();
+                textStartIterator.next();
+                textIterator = textStartIterator;
             }
         }
         if (patternOccurences.size() == 0) { patternOccurences.add(-1); }
