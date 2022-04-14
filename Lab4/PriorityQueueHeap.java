@@ -54,8 +54,8 @@ public class PriorityQueueHeap<T> {
 
     protected void changePriority(T item, int priority) {
         int index = 0;
-        for (int i = 1; i < size; i++) {
-            if (heap[i][0] == item) {
+        for (int i = 1; i <= size; i++) {
+            if (heap[i][0].equals(item)) {
                 index = i;
                 break;
             }

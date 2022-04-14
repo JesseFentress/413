@@ -91,13 +91,13 @@ public class PriorityQueueHeapMin<K> {
 
     protected void changePriority(K item, int priority) {
         int index = 0;
-        for (int i = 1; i < size; i++) {
-            if (heap[i][0] == item) {
+        for (int i = 1; i <= size; i++) {
+            if (heap[i][0].equals(item)) {
                 index = i;
                 break;
             }
         }
-        if (priority < (int)heap[index][1]) {
+        if (priority > (int)heap[index][1]) {
             return;
         }
         else {
@@ -157,5 +157,11 @@ public class PriorityQueueHeapMin<K> {
 
     protected int size() {
         return this.size;
+    }
+    
+    protected void print() {
+        for (int i = size(); i > 0; i--) {
+            System.out.print("[" + heap[i][0] + " " + heap[i][1] + "]" + " ");
+        }
     }
 }
