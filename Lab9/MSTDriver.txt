@@ -1,0 +1,33 @@
+public class MSTDriver {
+    public static void main(String[] args) {
+        Graph<String, String> sparseGraph = new Graph<>();
+        graph.addVertex('a');
+        graph.addVertex('b');
+        graph.addVertex('c');
+        graph.addVertex('d');
+        graph.addEdge('a', 'b', 3);
+        graph.addEdge('b', 'c', 4);
+        graph.addEdge('c', 'd', 5);
+        graph.addEdge('d', 'a', 2);
+
+        WeightedGraph wg = new WeightedGraph(4);
+        wg.addEdge('a', 'b');
+        wg.addEdge('b', 'c');
+        wg.addEdge('c', 'd');
+        wg.addEdge('d', 'a');
+        wg.addWeight('a', 'b', 3);
+        wg.addWeight('b', 'c', 4);
+        wg.addWeight('c', 'd', 5);
+        wg.addWeight('d', 'a', 2);
+        
+    }
+
+    private static kruskals(Graph graph) {
+        ArrayList<MapEntry> edges = new ArrayList<>();
+        for (MapEntry<String, String> keys: sparseGraph.entrySet()) {
+            for (MapEntry<String, Integer> entry: keys.entrySet()) {
+                edges.add(new MapEntry(keys, ))
+            }
+        }
+    }
+}

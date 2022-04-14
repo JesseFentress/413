@@ -1,15 +1,21 @@
 {
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
-        "c:\\Users\\jfent\\OneDrive\\Desktop\\School\\Coding\\lib\\json-simple-1.1.1.jar\\json-simple-1.1.1.jar"
+        "c:\\Users\\jfent\\OneDrive\\Desktop\\School\\Coding\\lib\\json-simple-1.1.1.jar\\json-simple-1.1.1.jar",
+        "c:\\Users\\j_fen\\OneDrive\\Desktop\\School\\Coding\\lib\\json_simple-1.1.jar"
     ],
     "java.project.sourcePaths": [
+        "Lab9",
+        "Lab7",
         "Lab6",
         "Lab5",
         "Lab4",
-        "Lab7"
+        "Lab3",
+        "Lab2",
+        "Lab8"
     ],
     "cSpell.words": [
-        "heapify"
+        "heapify",
+        "kruskals"
     ]
 }

@@ -3,10 +3,12 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Stack;
+import java.util.HashSet;
 
 public class WeightedGraph<T, V extends Comparable<V>> {
 
     HashMap<T, Vertex> vertices = new HashMap<>();
+    HashSet<Vertex> verticesInMSTPrims = new HashSet<>();
 
     protected void addVertex(T vertex) {
         if (!vertices.containsKey(vertex)) {
@@ -73,6 +75,118 @@ public class WeightedGraph<T, V extends Comparable<V>> {
         return null;
     }
 
+    protected List<Edge> kruskals() {
+        List<Edge> edges = new ArrayList<>();
+        for (T vertexKey: vertices.keySet()) {
+            Vertex currentVertex = vertices.get(vertexKey);
+            for (Vertex adjacentVertex: currentVertex.getAdjacentVertices().keySet()) {
+                edges.add(new Edge(currentVertex, adjacentVertex, currentVertex.getWeight(adjacentVertex)));
+            }
+        }
+        quickSort(edges, 0, edges.size() - 1);
+        HashSet<T> verticesInMST = new HashSet<>();
+        List<Edge> mst = new ArrayList<>();
+        while (verticesInMST.size() < vertices.size()) {
+            for (Edge currentEdge: edges) {
+                if (!verticesInMST.contains(currentEdge.getSourceVertex().getID()) || 
+                    !verticesInMST.contains(currentEdge.getDestinationVertex().getID())) {
+                        verticesInMST.add(currentEdge.getSourceVertex().getID());
+                        verticesInMST.add(currentEdge.getDestinationVertex().getID());
+                        mst.add(currentEdge);
+                }
+            }
+        }
+        for (Edge e: mst) {
+            System.out.println(e.getWeight());
+        }
+        return mst;     
+    }
+
+    protected int partition(List<Edge> arr, int low, int high) {
+        int index = low - 1;
+        for (int i = low; i < high; i++) {
+            if (arr.get(i).getWeight().compareTo(arr.get(high).getWeight()) < 0) {
+                index++;
+                Edge temp = arr.get(i);
+                arr.set(i, arr.get(index));
+                arr.set(index, temp);
+            }
+        }
+        Edge temp = arr.get(high);
+        arr.set(high, arr.get(index + 1));
+        arr.set(index + 1, temp);
+        return index + 1;
+    }
+
+
+    protected void quickSort(List<Edge> arr, int low, int high) {
+        if (high <= low) {
+            return;
+        }
+        int pivot = partition(arr, low, high);
+        quickSort(arr, low, pivot - 1);
+        quickSort(arr, pivot + 1, high);
+    }
+
+    protected List<Edge> prims() {
+        List<Edge> mst = new ArrayList<>();
+        verticesInMSTPrims.add(vertices.get(vertices.keySet().toArray()[0]));
+        while (verticesInMSTPrims.size() < vertices.size()) {
+            Edge minEdge = minimumEdge();
+            mst.add(minEdge);
+        }
+        for (Edge e: mst) {
+            System.out.println(e.getWeight());
+        }
+        return mst;
+    }
+
+    protected Edge minimumEdge() {  
+        Edge minEdge = null;
+        for (Vertex vertex: verticesInMSTPrims) {
+            for (Vertex adjacentVertex: vertex.getAdjacentVertices().keySet()) {
+                if ((minEdge == null) && (!verticesInMSTPrims.contains(vertex) || !verticesInMSTPrims.contains(adjacentVertex))) {
+                    minEdge = new Edge(vertex, adjacentVertex, vertex.getWeight((adjacentVertex)));
+                }
+                if (minEdge != null && ((vertex.getWeight(adjacentVertex).compareTo(minEdge.getWeight()) < 0) &&
+                    (!verticesInMSTPrims.contains(vertex) || !verticesInMSTPrims.contains(adjacentVertex)))) {
+                    minEdge = new Edge(vertex, adjacentVertex, vertex.getWeight(adjacentVertex));
+                }
+            }
+        }
+        verticesInMSTPrims.add(minEdge.getSourceVertex());
+        verticesInMSTPrims.add(minEdge.getDestinationVertex());
+        return minEdge;
+    }
+
+    protected class Edge {
+        private Vertex sourceVertex;
+        private Vertex destinationVertex;
+        private V weight;
+
+        Edge(Vertex sourceVertex, Vertex destinationVertex, V weight) {
+            this.sourceVertex = sourceVertex;
+            this.destinationVertex = destinationVertex;
+            this.weight = weight;
+        }
+
+        protected V getWeight() {
+            return this.weight;
+        }
+
+        protected String[] getVertexPair() {
+            return new String[] {sourceVertex.getID().toString() + destinationVertex.getID().toString(), 
+                                destinationVertex.getID().toString() + sourceVertex.getID().toString()};
+        }
+
+        protected Vertex getSourceVertex() {
+            return this.sourceVertex;
+        }
+
+        protected Vertex getDestinationVertex() {
+            return this.destinationVertex;
+        }
+    }
     protected class Vertex {
         private T id;
         private HashMap<Vertex, V> adjacentVertices;
@@ -91,7 +205,11 @@ public class WeightedGraph<T, V extends Comparable<V>> {
         }
 
         protected HashMap<Vertex, V> getAdjacentVertices() {
-            return this. adjacentVertices;
+            return this.adjacentVertices;
+        }
+
+        protected V getWeight(Vertex vertex) {
+            return adjacentVertices.get(vertex);
         }
     }
 }
