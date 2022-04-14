@@ -1,4 +1,4 @@
-public class PriorityQueueLinkedListMin {
+public class PriorityQueueLinkedListMax {
     public class Node {
         String value;
         int priority;
@@ -15,7 +15,7 @@ public class PriorityQueueLinkedListMin {
     Node tail;
     int size;
 
-    public PriorityQueueLinkedListMin() {
+    public PriorityQueueLinkedListMax() {
         this.head = null;
         this.tail = null;
         this.size = 0;
@@ -31,7 +31,7 @@ public class PriorityQueueLinkedListMin {
         Node newNode = new Node(item, priority);
         Node currNode = head;
         Node prevNode = currNode;
-        while (currNode != null && currNode.priority < newNode.priority) {
+        while (currNode != null && currNode.priority > newNode.priority) {
             prevNode = currNode;
             currNode = currNode.next;
         }

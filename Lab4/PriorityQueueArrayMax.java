@@ -10,7 +10,7 @@ public class PriorityQueueArrayMax {
     public PriorityQueueArrayMax() {
         this.items = new String[10];
         this.priority = new int[10];
-        this.index = -1;
+        this.index = 0;
         this.size = 0;
     }
 
@@ -19,36 +19,43 @@ public class PriorityQueueArrayMax {
             String[] temp = Arrays.copyOf(items, size() * 2);
             items = temp;
         }
-        if (index == -1) {
-            index++;
+        if (index == 0) {
             items[index] = newItem;
             priority[index] = newItemPriority;
+            index++;
         }
         else {
-            for (int i = index - 1; i >= 0; i--) {
-                if (priority[i] <= newItemPriority) {
-                    items[i + 1] = items[i];
-                    priority[i + 1] = priority[i];
-                    items[i] = newItem;
-                    priority[i] = newItemPriority;
-                }
-                else {
-                    items[i + 1] = newItem;
-                    priority[i + 1] = newItemPriority;
-                    break;
+            //index++;
+            items[index] = newItem;
+            priority[index] = newItemPriority;
+            for (int i = index; i > 0; i--) {
+                if (priority[i - 1] > priority[i]) {
+                    swap(i);
                 }
             }
+            index++;
         }
+        size++;
+    }
+
+    protected void swap(int i) {
+        String tempItem = items[i - 1];
+        int tempPriority = priority[i - 1];
+        items[i - 1] = items[i];
+        priority[i - 1] = priority[i];
+        items[i] = tempItem;
+        priority[i] = tempPriority;
     }
 
     protected String remove() {
         if (isEmpty()) {
             return null;
         }
-        String temp = items[index];
-        items[index] = null;
-        priority[index] = 0;
+        String temp = items[index - 1];
+        items[index - 1] = null;
+        priority[index - 1] = 0;
         index--;
+        size--;
         return temp;
     }
 
@@ -61,5 +68,11 @@ public class PriorityQueueArrayMax {
 
     protected int size() {
         return this.size;
+    }
+
+    protected void print() {
+        for (int i = 0; i < size(); i++) {
+            System.out.print("[" + items[i] + " " + priority[i] + "]" + " ");
+        }
     }
 }
