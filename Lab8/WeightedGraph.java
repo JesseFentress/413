@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Stack;
@@ -159,7 +160,38 @@ public class WeightedGraph<T, V extends Comparable<V>> {
         return minEdge;
     }
 
-    protected class Edge {
+    protected HashMap<Vertex, Integer> dijkstra(T start, T end) {
+        HashMap<Vertex, Integer> unvisited = new HashMap<>();
+        HashMap<Vertex, Integer> visited = new HashMap<>();
+        for (T vertexKey: vertices.keySet()) {
+            unvisited.put(vertices.get(vertexKey), Integer.MAX_VALUE / 2);
+        }
+        Vertex currentVertex = vertices.get(start);
+        int current_distance = 0;
+        unvisited.put(currentVertex, current_distance);
+        while (true) {
+            for (Vertex adjacentVertex: currentVertex.getAdjacentVertices().keySet()) {
+                if (!unvisited.containsKey(adjacentVertex)) {
+                    continue;
+                }
+                int new_distance = current_distance + (Integer)currentVertex.getWeight(adjacentVertex); //update
+                if (!unvisited.containsKey(adjacentVertex) || unvisited.get(adjacentVertex) > new_distance) {
+                    unvisited.put(adjacentVertex, new_distance);
+                }
+            }
+            visited.put(currentVertex, current_distance);
+            unvisited.remove(currentVertex);
+            if (unvisited.isEmpty()) {
+                break;
+            }
+            if (visited.containsKey(vertices.get(end))) {
+                return visited;
+            }
+        } 
+        return visited;
+    }
+
+     protected class Edge {
         private Vertex sourceVertex;
         private Vertex destinationVertex;
         private V weight;
