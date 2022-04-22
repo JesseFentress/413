@@ -1,7 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Stack;
 import java.util.HashSet;
@@ -9,11 +11,14 @@ import java.util.HashSet;
 public class WeightedGraph<T, V extends Comparable<V>> {
 
     HashMap<T, Vertex> vertices = new HashMap<>();
+    HashMap<T, Integer> indices = new HashMap<>();
+    Integer index = 0;
     HashSet<Vertex> verticesInMSTPrims = new HashSet<>();
 
     protected void addVertex(T vertex) {
         if (!vertices.containsKey(vertex)) {
             vertices.put(vertex, new Vertex(vertex));
+            indices.put(vertex, index++);
         }
     }
 
@@ -160,36 +165,109 @@ public class WeightedGraph<T, V extends Comparable<V>> {
         return minEdge;
     }
 
-    protected HashMap<Vertex, Integer> dijkstra(T start, T end) {
-        HashMap<Vertex, Integer> unvisited = new HashMap<>();
-        HashMap<Vertex, Integer> visited = new HashMap<>();
-        for (T vertexKey: vertices.keySet()) {
-            unvisited.put(vertices.get(vertexKey), Integer.MAX_VALUE / 2);
+    private void printPath(List<Vertex> path) {
+        int index = path.size() - 1;
+        System.out.println("The cheapest route from " + path.get(path.size() - 1).getID() + " to " + path.get(0).getID() + " is...");
+        while (index >= 0) {
+            if (index > 0) {
+                System.out.print(path.get(index).getID() + " -> ");
+            }
+            else {
+                System.out.print(path.get(index).getID() + "\n");
+            }
+            index--;
         }
-        Vertex currentVertex = vertices.get(start);
+        System.out.println("The total cost is $" + path.get(0).weight);
+    }
+
+    protected List<Vertex> dijkstra(T start, T end) {
+        dijkstra_paths(start);
+        List<Vertex> path = new ArrayList<>();
+        Vertex currentVertex = vertices.get(end);
+        while (currentVertex != null) {
+            path.add(currentVertex);
+            currentVertex = currentVertex.parent;
+        }
+        printPath(path);
+        return path;
+    }
+
+    protected void maxWeights() {
+        for (T vertexKey: vertices.keySet()) {
+            vertices.get(vertexKey).weight = Integer.MAX_VALUE / 2;
+        }
+    }
+
+    protected HashSet<Vertex> dijkstra_paths(T start) {
+        maxWeights();
+        Vertex startVertex = vertices.get(start);
+        HashSet<Vertex> visited = new HashSet<>();
         int current_distance = 0;
-        unvisited.put(currentVertex, current_distance);
-        while (true) {
+        startVertex.weight = current_distance;
+        PriorityQueue<Vertex> priorityQueue = new PriorityQueue<>(vertices.size(), new VertexComparator());
+        priorityQueue.addAll(vertices.values());
+        while (!priorityQueue.isEmpty()) {
+            Vertex currentVertex = priorityQueue.poll();
+            visited.add(currentVertex);
             for (Vertex adjacentVertex: currentVertex.getAdjacentVertices().keySet()) {
-                if (!unvisited.containsKey(adjacentVertex)) {
-                    continue;
+                if (adjacentVertex.weight > currentVertex.getEdgeWeight(adjacentVertex) + currentVertex.weight) {
+                    adjacentVertex.weight = currentVertex.getEdgeWeight(adjacentVertex) + currentVertex.weight;
+                    adjacentVertex.parent = currentVertex;
+                    if (!priorityQueue.isEmpty()) {
+                        Vertex po = priorityQueue.poll();              
+                        priorityQueue.add(po);
+                    }
                 }
-                int new_distance = current_distance + (Integer)currentVertex.getWeight(adjacentVertex); //update
-                if (!unvisited.containsKey(adjacentVertex) || unvisited.get(adjacentVertex) > new_distance) {
-                    unvisited.put(adjacentVertex, new_distance);
-                }
             }
-            visited.put(currentVertex, current_distance);
-            unvisited.remove(currentVertex);
-            if (unvisited.isEmpty()) {
-                break;
+            if (!priorityQueue.isEmpty()) {         
+                priorityQueue.add(priorityQueue.poll());
             }
-            if (visited.containsKey(vertices.get(end))) {
-                return visited;
-            }
-        } 
+        }
         return visited;
     }
+
+    protected int[][] convertToMatrix() {
+        int[][] graph = new int[vertices.size()][vertices.size()];
+        for (Map.Entry<T, Integer> entry: indices.entrySet()) {
+            //if (entry.getKey().equals("Philadelphia") || entry.getKey().equals("Los Vegas")) { System.out.println(entry.getValue());}
+            for (Vertex adjacentVertex: vertices.get(entry.getKey()).getAdjacentVertices().keySet()) {
+                graph[entry.getValue()][indices.get(adjacentVertex.getID())] = vertices.get(entry.getKey()).getEdgeWeight(adjacentVertex);
+            }
+        }
+        return graph;
+    }
+
+    protected void floydWarshall() {
+        int graph[][] = convertToMatrix();
+        int dist[][] = new int[graph.length][graph.length];
+        int i, j, k;
+        for (i = 0; i < graph.length; i++) {
+            for (j = 0; j < graph.length; j++) {
+                dist[i][j] = graph[i][j];
+            }
+        }
+        for (k = 0; k < graph.length; k++) {
+            for (i = 0; i < graph.length; i++) {
+                for (j = 0; j < graph.length; j++) {
+                    if (dist[i][j] > dist[i][k] + dist[k][j]) {
+                        dist[i][j] = dist[i][k] + dist[k][j];
+                    }
+                }
+            }
+        }
+        for (int n = 0; n < graph.length; n++) { //this equals to the row in our matrix.
+            for (int m = 0; m < graph.length; m++) { //this equals to the column in each row.
+               System.out.print(graph[n][m] + " ");
+            }
+            System.out.println(); //change line on console as row comes to end in the matrix.
+         }
+    }
+    class VertexComparator implements Comparator<Vertex> {
+        @Override
+        public int compare(Vertex o1, Vertex o2) {
+            return o1.weight - o2.weight;
+        }
+    } 
 
      protected class Edge {
         private Vertex sourceVertex;
@@ -222,6 +300,8 @@ public class WeightedGraph<T, V extends Comparable<V>> {
     protected class Vertex {
         private T id;
         private HashMap<Vertex, V> adjacentVertices;
+        public int weight;
+        public Vertex parent;
     
         Vertex(T id) {
             this.id = id;
@@ -242,6 +322,10 @@ public class WeightedGraph<T, V extends Comparable<V>> {
 
         protected V getWeight(Vertex vertex) {
             return adjacentVertices.get(vertex);
+        }
+
+        protected int getEdgeWeight(Vertex vertex) {
+            return (int)adjacentVertices.get(vertex);
         }
     }
 }
